@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReelFlick Settings</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="rf-popup">
+    <!-- Header -->
+    <header class="rf-popup-header">
+      <div class="rf-popup-brand">
+        <div class="rf-popup-logo">⚡</div>
+        <div>
+          <h1 class="rf-popup-title">ReelFlick</h1>
+          <p class="rf-popup-sub">Air Gesture Controller</p>
+        </div>
+      </div>
+      <label class="rf-switch">
+        <input type="checkbox" id="toggle-enabled" checked>
+        <span class="rf-slider round"></span>
+      </label>
+    </header>
+
+    <!-- Platform status pills -->
+    <div class="rf-platforms">
+      <div class="rf-platform-pill active" id="platform-yt">
+        <span class="pill-dot"></span> YouTube Shorts
+      </div>
+      <div class="rf-platform-pill active" id="platform-ig">
+        <span class="pill-dot"></span> IG Reels
+      </div>
+      <div class="rf-platform-pill active" id="platform-tt">
+        <span class="pill-dot"></span> TikTok
+      </div>
+    </div>
+
+    <!-- Mode Selector -->
+    <div class="rf-section">
+      <label class="rf-label">Gesture Mode</label>
+      <div class="rf-mode-toggle">
+        <button class="rf-mode-btn active" id="mode-scroll-only">
+          <span class="rf-mode-icon">📜</span>
+          <span class="rf-mode-name">Scroll Only</span>
+          <span class="rf-mode-desc">Swipe Next/Prev Only</span>
+        </button>
+        <button class="rf-mode-btn" id="mode-full-gestures">
+          <span class="rf-mode-icon">✋</span>
+          <span class="rf-mode-name">Full Gestures</span>
+          <span class="rf-mode-desc">Scroll, Like & Pause</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Sensitivity Slider -->
+    <div class="rf-section">
+      <div class="rf-section-header">
+        <label class="rf-label" for="slider-sensitivity">Flick Sensitivity</label>
+        <span class="rf-val" id="val-sensitivity">1.2x</span>
+      </div>
+      <input type="range" min="0.5" max="2.5" step="0.1" value="1.2" class="rf-range" id="slider-sensitivity">
+    </div>
+
+    <!-- Settings Toggles -->
+    <div class="rf-section rf-toggles">
+      <div class="rf-toggle-row">
+        <span>Auto-start Tracking on Shorts/Reels</span>
+        <label class="rf-switch mini">
+          <input type="checkbox" id="toggle-autostart" checked>
+          <span class="rf-slider round"></span>
+        </label>
+      </div>
+    </div>
+
+
+    <!-- Gestures Reference -->
+    <div class="rf-reference">
+      <div class="rf-ref-item">
+        <span class="rf-ref-key">🖐️ Flick Up</span>
+        <span class="rf-ref-val">Next Video</span>
+      </div>
+      <div class="rf-ref-item">
+        <span class="rf-ref-key">👇 Flick Down</span>
+        <span class="rf-ref-val">Previous Video</span>
+      </div>
+      <div class="rf-ref-item" id="ref-thumbsup">
+        <span class="rf-ref-key">👍 Thumbs Up</span>
+        <span class="rf-ref-val">Like Video (Full Mode)</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="rf-footer">
+      <span>Bottom-Right Floating HUD Active</span>
+      <span class="rf-version">v1.0</span>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
