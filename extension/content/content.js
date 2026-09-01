@@ -5,10 +5,13 @@
  */
 
 (function () {
-  if (window.__REELFLICK_INITIALIZED__) return;
-  window.__REELFLICK_INITIALIZED__ = true;
+  console.log("[ReelFlick] Content script initializing...");
 
-  console.log("[ReelFlick] Content script initialized on short-form platform.");
+  // Clean up any previously injected HUD
+  const existingHud = document.getElementById("reelflick-hud-root");
+  if (existingHud) {
+    existingHud.remove();
+  }
 
   let settings = {
     enabled: true,
@@ -79,7 +82,10 @@
 
   // 2. Inject Bottom-Right Floating HUD with Custom SVGs and Doomscrolling Logo
   function createHud() {
-    if (document.getElementById("reelflick-hud-root")) return;
+    const existing = document.getElementById("reelflick-hud-root");
+    if (existing) {
+      existing.remove();
+    }
 
     const root = document.createElement("div");
     root.id = "reelflick-hud-root";
