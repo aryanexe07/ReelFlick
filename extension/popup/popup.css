@@ -1,4 +1,6 @@
-/* ReelFlick Popup Styles - Sleek Dark Mode */
+/* ==========================================================================
+   ReelFlick Popup Styles - Ultra-Modern Dark Glass Aesthetic
+   ========================================================================== */
 
 * {
   box-sizing: border-box;
@@ -7,12 +9,13 @@
 }
 
 body {
-  width: 320px;
-  background-color: #0b0f19;
+  width: 340px;
+  background-color: #080c14;
   color: #f1f5f9;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   font-size: 13px;
   user-select: none;
+  overflow-x: hidden;
 }
 
 .rf-popup {
@@ -20,76 +23,145 @@ body {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.12) 0%, transparent 60%),
+              radial-gradient(circle at bottom left, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
 }
 
 /* Header */
-.rf-popup-header {
+.rf-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
 }
 
-.rf-popup-brand {
+.rf-brand {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.rf-popup-logo {
-  width: 32px;
-  height: 32px;
+.rf-logo {
+  width: 34px;
+  height: 34px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-.rf-popup-title {
+.rf-logo-img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.rf-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.rf-title {
   font-size: 15px;
   font-weight: 700;
+  letter-spacing: -0.2px;
   color: #ffffff;
-  line-height: 1.2;
 }
 
-.rf-popup-sub {
+.rf-version-badge {
+  font-size: 9px;
+  font-weight: 600;
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.rf-subtitle {
   font-size: 11px;
   color: #94a3b8;
+  margin-top: 1px;
 }
 
-/* Platform pills */
-.rf-platforms {
+/* Platform Status Banner */
+.rf-platform-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #cbd5e1;
+}
+
+.rf-status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+  flex-shrink: 0;
+}
+
+.rf-status-indicator.inactive {
+  background: #64748b;
+  box-shadow: none;
+}
+
+.rf-status-indicator.ready {
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8;
+}
+
+.rf-status-text {
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Supported Platform Tags */
+.rf-platform-tags {
   display: flex;
   gap: 6px;
 }
 
-.rf-platform-pill {
+.rf-tag {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
-  padding: 5px 4px;
+  padding: 6px 4px;
   font-size: 10px;
-  color: #cbd5e1;
   font-weight: 500;
+  color: #94a3b8;
+  transition: all 0.2s ease;
 }
 
-.rf-platform-pill .pill-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #10b981;
+.rf-tag.active-platform {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
 }
 
-/* Section */
+.rf-tag-icon {
+  font-size: 10px;
+}
+
+/* Sections */
 .rf-section {
   display: flex;
   flex-direction: column;
@@ -102,7 +174,7 @@ body {
   justify-content: space-between;
 }
 
-.rf-label {
+.rf-section-label {
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -110,66 +182,82 @@ body {
   color: #94a3b8;
 }
 
-.rf-val {
-  font-size: 11px;
-  font-weight: 700;
+.rf-badge-active {
+  font-size: 10px;
+  font-weight: 600;
   color: #818cf8;
+  background: rgba(99, 102, 241, 0.15);
+  padding: 2px 6px;
+  border-radius: 6px;
 }
 
-/* Mode Switch */
-.rf-mode-toggle {
+.rf-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+/* Mode Switch Grid */
+.rf-mode-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
 }
 
-.rf-mode-btn {
+.rf-mode-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 10px 8px;
+  align-items: flex-start;
+  padding: 10px 10px;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   color: #94a3b8;
   cursor: pointer;
-  transition: all 0.2s ease;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.rf-mode-btn:hover {
+.rf-mode-card:hover {
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.16);
   color: #f1f5f9;
 }
 
-.rf-mode-btn.active {
-  background: rgba(99, 102, 241, 0.15);
+.rf-mode-card.active {
+  background: linear-gradient(145deg, rgba(99, 102, 241, 0.2), rgba(168, 85, 247, 0.1));
   border-color: #6366f1;
   color: #ffffff;
-  box-shadow: 0 0 16px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.25);
+}
+
+.rf-mode-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
 }
 
 .rf-mode-icon {
-  font-size: 18px;
-  margin-bottom: 4px;
+  font-size: 15px;
 }
 
 .rf-mode-name {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .rf-mode-desc {
-  font-size: 9px;
+  font-size: 9.5px;
+  line-height: 1.35;
   color: #64748b;
-  margin-top: 2px;
 }
 
-.rf-mode-btn.active .rf-mode-desc {
-  color: #a5b4fc;
+.rf-mode-card.active .rf-mode-desc {
+  color: #c7d2fe;
 }
 
-/* Range Slider */
+/* Sensitivity Range & Presets */
 .rf-range {
   -webkit-appearance: none;
   appearance: none;
@@ -178,47 +266,92 @@ body {
   border-radius: 4px;
   background: #1e293b;
   outline: none;
+  cursor: pointer;
 }
 
 .rf-range::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  background: #6366f1;
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
   cursor: pointer;
-  box-shadow: 0 0 8px #6366f1;
-  transition: transform 0.1s ease;
+  transition: transform 0.15s ease;
 }
 
 .rf-range::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
+  transform: scale(1.25);
 }
 
-/* Toggles */
-.rf-toggles {
-  gap: 10px;
+.rf-presets {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.rf-preset-btn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 4px 0;
+  font-size: 10px;
+  font-weight: 500;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rf-preset-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f1f5f9;
+}
+
+.rf-preset-btn.active {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: #818cf8;
+  color: #ffffff;
+}
+
+/* Option Box & Toggles */
+.rf-options-box {
   background: rgba(255, 255, 255, 0.02);
-  padding: 8px 10px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 10px 12px;
+  gap: 10px;
 }
 
-.rf-toggle-row {
+.rf-option-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
-  color: #cbd5e1;
 }
 
-/* Switch */
+.rf-option-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.rf-option-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.rf-option-desc {
+  font-size: 10px;
+  color: #64748b;
+}
+
+/* Master & Mini Switches */
 .rf-switch {
   position: relative;
   display: inline-block;
-  width: 40px;
-  height: 22px;
+  width: 42px;
+  height: 24px;
 }
 
 .rf-switch.mini {
@@ -237,20 +370,21 @@ body {
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
   background-color: #334155;
-  transition: .25s;
+  transition: .25s ease;
   border-radius: 34px;
 }
 
 .rf-slider:before {
   position: absolute;
   content: "";
-  height: 16px;
-  width: 16px;
+  height: 18px;
+  width: 18px;
   left: 3px;
   bottom: 3px;
   background-color: white;
-  transition: .25s;
+  transition: .25s cubic-bezier(0.16, 1, 0.3, 1);
   border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .rf-switch.mini .rf-slider:before {
@@ -261,7 +395,8 @@ body {
 }
 
 input:checked + .rf-slider {
-  background-color: #6366f1;
+  background: linear-gradient(135deg, #6366f1, #38bdf8);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
 }
 
 input:checked + .rf-slider:before {
@@ -272,27 +407,42 @@ input:checked + .rf-slider:before {
   transform: translateX(14px);
 }
 
-/* Reference Box */
-.rf-reference {
+/* Gesture Cheat Sheet */
+.rf-gesture-list {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   padding: 10px;
-  border-radius: 8px;
-  font-size: 11px;
+  border-radius: 10px;
 }
 
-.rf-ref-item {
+.rf-gesture-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-size: 11px;
   color: #94a3b8;
+  transition: opacity 0.2s ease;
 }
 
-.rf-ref-key {
+.rf-gesture-key {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   color: #f1f5f9;
   font-weight: 500;
+}
+
+.rf-gesture-glyph {
+  font-size: 12px;
+}
+
+.rf-gesture-action {
+  color: #818cf8;
+  font-weight: 600;
+  font-size: 10.5px;
 }
 
 /* Footer */
@@ -302,6 +452,21 @@ input:checked + .rf-slider:before {
   justify-content: space-between;
   font-size: 10px;
   color: #64748b;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 10px;
+}
+
+.rf-footer-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #94a3b8;
+}
+
+.rf-dot-live {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
 }

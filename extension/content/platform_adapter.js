@@ -1,13 +1,13 @@
 /**
  * ReelFlick Platform Adapter
- * Provides direct DOM controls and keyboard event emulation for YouTube Shorts,
- * Instagram Reels, and TikTok with zero lag and native responsiveness.
+ * Provides DOM controls, keyboard event emulation, and wheel triggers for
+ * YouTube Shorts, Instagram Reels, TikTok, and generic short-form feeds.
  */
 
 class PlatformAdapter {
   constructor() {
     this.platform = this.detectPlatform();
-    console.log(`[ReelFlick] Detected platform: ${this.platform}`);
+    console.log(`[ReelFlick] Platform detected: ${this.platform}`);
   }
 
   detectPlatform() {
@@ -22,7 +22,6 @@ class PlatformAdapter {
    * Navigate to next short/reel
    */
   next() {
-    console.log("[ReelFlick] Action: NEXT");
     switch (this.platform) {
       case "youtube":
         this._youtubeNext();
@@ -42,7 +41,6 @@ class PlatformAdapter {
    * Navigate to previous short/reel
    */
   previous() {
-    console.log("[ReelFlick] Action: PREVIOUS");
     switch (this.platform) {
       case "youtube":
         this._youtubePrev();
@@ -59,20 +57,9 @@ class PlatformAdapter {
   }
 
   /**
-   * Continuous or micro-scroll emulation for precision air scroll
-   */
-  scroll(deltaY) {
-    window.scrollBy({
-      top: deltaY,
-      behavior: "smooth"
-    });
-  }
-
-  /**
    * Like current video
    */
   like() {
-    console.log("[ReelFlick] Action: LIKE");
     switch (this.platform) {
       case "youtube":
         this._youtubeLike();
@@ -84,7 +71,7 @@ class PlatformAdapter {
         this._tiktokLike();
         break;
       default:
-        this._dispatchKey("l");
+        this._dispatchKey("l", 76);
     }
   }
 
@@ -92,57 +79,44 @@ class PlatformAdapter {
    * Toggle Play / Pause
    */
   togglePlayPause() {
-    console.log("[ReelFlick] Action: PLAY/PAUSE");
-    switch (this.platform) {
-      case "youtube":
-      case "instagram":
-      case "tiktok":
-      default:
-        this._dispatchKey(" ");
+    const video = document.querySelector("video");
+    if (video) {
+      if (video.paused) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
     }
+    this._dispatchKey(" ", 32);
   }
 
   // --- YouTube Shorts Implementation ---
-
   _youtubeNext() {
-    // 1. Try finding and clicking Next button
     const downBtn = document.querySelector("#navigation-button-down button") ||
                     document.querySelector("ytd-shorts [aria-label='Next video']") ||
                     document.querySelector("[aria-label='Next video']") ||
-                    document.querySelector("#shorts-container #navigation-button-down");
+                    document.querySelector("#shorts-container #navigation-button-down button");
     if (downBtn) {
       downBtn.click();
     }
-    
-    // 2. Dispatch keyboard 'j' and Down Arrow to active player / container
-    this._dispatchKey("j", 74);
-    this._dispatchKey("ArrowDown", 40);
 
-    // 3. Emulate mouse wheel scroll on container
-    const shortsContainer = document.querySelector("ytd-shorts") || 
-                            document.querySelector("#shorts-container") || 
-                            document.querySelector("#shorts-inner-container") || 
-                            document.body;
-    this._simulateWheelOn(shortsContainer, window.innerHeight * 0.9);
+    this._dispatchKey("ArrowDown", 40);
+    this._dispatchKey("j", 74);
+    this._simulateWheel(window.innerHeight * 0.85);
   }
 
   _youtubePrev() {
     const upBtn = document.querySelector("#navigation-button-up button") ||
                   document.querySelector("ytd-shorts [aria-label='Previous video']") ||
                   document.querySelector("[aria-label='Previous video']") ||
-                  document.querySelector("#shorts-container #navigation-button-up");
+                  document.querySelector("#shorts-container #navigation-button-up button");
     if (upBtn) {
       upBtn.click();
     }
-    
-    this._dispatchKey("k", 75);
-    this._dispatchKey("ArrowUp", 38);
 
-    const shortsContainer = document.querySelector("ytd-shorts") || 
-                            document.querySelector("#shorts-container") || 
-                            document.querySelector("#shorts-inner-container") || 
-                            document.body;
-    this._simulateWheelOn(shortsContainer, -window.innerHeight * 0.9);
+    this._dispatchKey("ArrowUp", 38);
+    this._dispatchKey("k", 75);
+    this._simulateWheel(-window.innerHeight * 0.85);
   }
 
   _youtubeLike() {
@@ -158,7 +132,6 @@ class PlatformAdapter {
   }
 
   // --- Instagram Reels Implementation ---
-
   _instagramNext() {
     const nextBtn = document.querySelector("[aria-label='Next']") ||
                     document.querySelector("svg[aria-label='Down chevron']")?.closest("button") ||
@@ -193,7 +166,6 @@ class PlatformAdapter {
   }
 
   // --- TikTok Implementation ---
-
   _tiktokNext() {
     const downArrow = document.querySelector("[data-e2e='arrow-right']") ||
                       document.querySelector("button[aria-label='Go to next video']") ||
@@ -226,8 +198,7 @@ class PlatformAdapter {
     }
   }
 
-  // --- Generic Helpers ---
-
+  // --- Generic Fallback ---
   _genericNext() {
     this._dispatchKey("ArrowDown", 40);
     this._simulateWheel(window.innerHeight * 0.85);
@@ -269,15 +240,12 @@ class PlatformAdapter {
   }
 
   _simulateWheel(deltaY) {
-    const scrollTarget = document.querySelector("ytd-shorts") || 
-                         document.querySelector("#shorts-container") || 
-                         document.querySelector("main") || 
-                         document.body;
-    this._simulateWheelOn(scrollTarget, deltaY);
-  }
-
-  _simulateWheelOn(target, deltaY) {
+    const target = document.querySelector("ytd-shorts") ||
+                   document.querySelector("#shorts-container") ||
+                   document.querySelector("main") ||
+                   document.body;
     if (!target) return;
+
     const event = new WheelEvent("wheel", {
       deltaY: deltaY,
       deltaMode: 0,
@@ -286,10 +254,8 @@ class PlatformAdapter {
       cancelable: true
     });
     target.dispatchEvent(event);
-    window.scrollBy({ top: deltaY, behavior: "smooth" });
   }
 }
 
 // Attach globally
 window.ReelFlickPlatformAdapter = PlatformAdapter;
-

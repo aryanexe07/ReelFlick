@@ -6,12 +6,12 @@
 const DEFAULT_SETTINGS = {
   enabled: true,
   mode: "scroll_only", // "scroll_only" or "full_gestures"
-  sensitivity: 1.2, // 0.5 to 2.0
-  cooldown: 0.8, // seconds between triggers
+  sensitivity: 1.2, // 0.6 to 2.4
+  cooldown: 0.75, // seconds between triggers
   showHud: true,
-  hudSize: "compact", // "compact" or "expanded"
   cameraVisible: true,
-  autoStart: true
+  autoStart: true,
+  minimized: false
 };
 
 // Initialize settings on install
@@ -22,7 +22,7 @@ chrome.runtime.onInstalled.addListener(() => {
   });
 });
 
-// Relay messages between popup and content scripts if needed
+// Relay messages between popup and content scripts
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "GET_SETTINGS") {
     chrome.storage.sync.get(DEFAULT_SETTINGS, (settings) => {
@@ -33,10 +33,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
   if (message.type === "UPDATE_SETTINGS") {
     chrome.storage.sync.set(message.settings, () => {
-      // Notify active tabs of settings change
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      // Notify all tabs matching supported hosts
+      chrome.tabs.query({}, (tabs) => {
         tabs.forEach((tab) => {
-          if (tab.id) {
+          if (tab.id && tab.url && (tab.url.includes("youtube.com") || tab.url.includes("instagram.com") || tab.url.includes("tiktok.com"))) {
             chrome.tabs.sendMessage(tab.id, {
               type: "SETTINGS_UPDATED",
               settings: message.settings

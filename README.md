@@ -29,29 +29,23 @@ A production-quality desktop application that lets you control YouTube Shorts, I
 - A webcam
 - Windows, macOS, or Linux
 
-### Setup
+## Browser Extension Setup (Chrome / Brave / Edge)
 
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/reelflick.git
-cd reelflick
-```
+ReelFlick includes a standalone **Manifest V3 Browser Extension** that runs directly inside your browser with a floating in-page HUD and hands-free gesture navigation for YouTube Shorts, Instagram Reels, and TikTok!
 
-2. Create a virtual environment (recommended):
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
+### Installing Extension in 3 Steps:
+1. Open Chrome/Brave/Edge and navigate to `chrome://extensions/`
+2. Enable **Developer mode** (toggle in the top-right corner)
+3. Click **Load unpacked** and select the `extension/` folder in this repository: `c:\ReelFlick\extension`
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+### Testing the Extension:
+- You can test it on [YouTube Shorts](https://www.youtube.com/shorts), [Instagram Reels](https://www.instagram.com/reels), or [TikTok](https://www.tiktok.com)
+- Or open the built-in test playground file: [extension/test.html](file:///c:/ReelFlick/extension/test.html) directly in your browser to test live gestures right away!
 
-4. Run the application:
-```bash
-python app.py
-```
+---
+
+## Desktop App Setup (Optional)
+
 
 ## Usage
 
