@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ReelFlick - Gesture Playground & Test Studio</title>
+  <title>ReelFlick - Gesture Studio</title>
   <style>
     :root {
-      --bg: #070a13;
-      --card-bg: rgba(15, 23, 42, 0.7);
-      --border: rgba(99, 102, 241, 0.25);
-      --accent: #6366f1;
-      --accent-cyan: #38bdf8;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
+      --bg: #09090b;
+      --card-bg: #121215;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #ffffff;
+      --accent-muted: #71717a;
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
     }
 
     * {
@@ -22,7 +22,7 @@
     }
 
     body {
-      background: radial-gradient(circle at 10% 20%, #0d1527 0%, var(--bg) 90%);
+      background: radial-gradient(circle at top center, #18181b 0%, var(--bg) 80%);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       min-height: 100vh;
@@ -33,11 +33,11 @@
     }
 
     .container {
-      max-width: 900px;
+      max-width: 880px;
       width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 20px;
     }
 
     header {
@@ -47,9 +47,8 @@
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 16px 24px;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      padding: 14px 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
     }
 
     .brand {
@@ -61,30 +60,36 @@
     .brand-logo {
       width: 40px;
       height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, var(--accent), #a855f7);
+      border-radius: 10px;
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      box-shadow: 0 0 15px rgba(99, 102, 241, 0.5);
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .brand h1 {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.4px;
     }
 
     .brand p {
-      font-size: 12px;
-      color: var(--text-muted);
+      font-size: 11px;
+      color: var(--accent-muted);
     }
 
     .grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
+      gap: 16px;
     }
 
     @media (max-width: 768px) {
@@ -96,22 +101,21 @@
     .card {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
-      backdrop-filter: blur(16px);
+      border-radius: 14px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .feed-container {
       position: relative;
       width: 100%;
       aspect-ratio: 4 / 3;
-      background: #03060c;
-      border-radius: 12px;
+      background: #000000;
+      border-radius: 10px;
       overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     video {
@@ -119,6 +123,8 @@
       height: 100%;
       object-fit: cover;
       transform: scaleX(-1);
+      opacity: 0.5;
+      filter: grayscale(80%) contrast(1.15);
     }
 
     canvas {
@@ -140,8 +146,8 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: rgba(11, 15, 25, 0.85);
-      backdrop-filter: blur(8px);
+      background: rgba(10, 10, 14, 0.9);
+      backdrop-filter: blur(6px);
       opacity: 0;
       pointer-events: none;
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -154,12 +160,12 @@
     }
 
     .feedback-icon {
-      font-size: 52px;
-      filter: drop-shadow(0 0 20px rgba(99, 102, 241, 0.9));
+      font-size: 48px;
+      filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.8));
     }
 
     .feedback-text {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       margin-top: 8px;
     }
@@ -175,7 +181,7 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      color: var(--text-muted);
+      color: var(--accent-muted);
     }
 
     .feed-placeholder.hidden {
@@ -183,29 +189,46 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #8b5cf6);
-      color: white;
+      background: #ffffff;
+      color: #09090b;
       border: none;
-      padding: 10px 20px;
+      padding: 9px 18px;
       border-radius: 8px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
-      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+      transition: all 0.15s ease;
     }
 
     .btn-primary:hover {
+      background: #e4e4e7;
       transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(99, 102, 241, 0.6);
+    }
+
+    .btn-dark {
+      background: #1e1e24;
+      color: #f4f4f5;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-dark:hover {
+      background: #27272a;
+      border-color: rgba(255, 255, 255, 0.25);
     }
 
     /* Simulated Reels Deck */
     .reels-simulator {
       position: relative;
-      height: 380px;
-      background: #020408;
-      border-radius: 14px;
+      height: 360px;
+      background: #000000;
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -216,22 +239,24 @@
     .reel-card {
       width: 90%;
       height: 90%;
-      border-radius: 12px;
+      border-radius: 10px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: 20px;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .reel-1 { background: linear-gradient(135deg, #1e1b4b, #312e81); }
-    .reel-2 { background: linear-gradient(135deg, #064e3b, #047857); }
-    .reel-3 { background: linear-gradient(135deg, #701a75, #86198f); }
-    .reel-4 { background: linear-gradient(135deg, #7c2d12, #9a3412); }
+    .reel-1 { background: linear-gradient(135deg, #18181b, #0f0f12); }
+    .reel-2 { background: linear-gradient(135deg, #202024, #121215); }
+    .reel-3 { background: linear-gradient(135deg, #1c1c20, #0d0d0f); }
+    .reel-4 { background: linear-gradient(135deg, #27272a, #18181b); }
 
     .reel-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
+      letter-spacing: -0.3px;
     }
 
     .reel-stats {
@@ -245,36 +270,37 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 6px 12px;
       border-radius: 20px;
       transition: all 0.2s;
     }
 
     .like-badge.liked {
-      background: #ef4444;
-      color: white;
-      box-shadow: 0 0 14px rgba(239, 68, 68, 0.6);
+      background: #ffffff;
+      color: #09090b;
+      font-weight: 600;
     }
 
     .log-box {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 10px;
-      padding: 12px;
+      background: #09090b;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 10px;
       font-family: monospace;
       font-size: 11px;
-      color: #94a3b8;
-      max-height: 100px;
+      color: var(--accent-muted);
+      max-height: 90px;
       overflow-y: auto;
     }
 
     .log-entry {
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .log-entry.highlight {
-      color: var(--accent-cyan);
+      color: #ffffff;
     }
   </style>
 </head>
@@ -282,10 +308,12 @@
   <div class="container">
     <header>
       <div class="brand">
-        <div class="brand-logo">⚡</div>
+        <div class="brand-logo">
+          <img src="icons/icon48.png" alt="ReelFlick">
+        </div>
         <div>
-          <h1>ReelFlick Gesture Playground</h1>
-          <p>Real-Time In-Browser Test Studio</p>
+          <h1>ReelFlick Gesture Studio</h1>
+          <p>Real-Time In-Browser Test Environment</p>
         </div>
       </div>
       <button class="btn-primary" id="btn-toggle-cam">Start Camera</button>
@@ -294,7 +322,7 @@
     <div class="grid">
       <!-- Left: Camera & Vision Feed -->
       <div class="card">
-        <h2 style="font-size: 14px; color: var(--accent-cyan); text-transform: uppercase; letter-spacing: 0.5px;">1. Camera Vision & Gesture Feed</h2>
+        <h2 style="font-size: 12.5px; color: var(--accent-muted); text-transform: uppercase; letter-spacing: 0.6px;">1. Hand Vision & Landmarks</h2>
         
         <div class="feed-container">
           <video id="test-video" playsinline muted autoplay></video>
@@ -305,61 +333,61 @@
           </div>
           <div class="feed-placeholder" id="placeholder">
             <span>📷 Camera is offline</span>
-            <button class="btn-primary" id="btn-start-hero">Allow & Start Camera</button>
+            <button class="btn-primary" id="btn-start-hero">Start Camera</button>
           </div>
         </div>
 
         <div class="log-box" id="log-box">
-          <div class="log-entry">Studio ready. Click 'Start Camera' to calibrate.</div>
+          <div class="log-entry">Studio ready. Wave or snap wrist up/down to flick.</div>
         </div>
       </div>
 
       <!-- Right: Simulated Short-form Video Feed -->
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <h2 style="font-size: 14px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.5px;">2. Interactive Video Deck</h2>
-          <span style="font-size: 11px; color: var(--text-muted);" id="deck-counter">Reel 1 of 4</span>
+          <h2 style="font-size: 12.5px; color: var(--accent-muted); text-transform: uppercase; letter-spacing: 0.6px;">2. Video Feed Preview</h2>
+          <span style="font-size: 11px; color: var(--accent-muted);" id="deck-counter">Reel 1 of 4</span>
         </div>
 
         <div class="reels-simulator" id="reels-deck">
           <div class="reel-card reel-1" id="current-reel">
             <div>
-              <div style="font-size: 11px; opacity: 0.7; margin-bottom: 4px;">#1 • ReelFlick Demo</div>
-              <div class="reel-title" id="reel-title">Wave Up 🖐️⬆️ to go to next video</div>
+              <div style="font-size: 11px; opacity: 0.6; margin-bottom: 4px;">#1 • ReelFlick Preview</div>
+              <div class="reel-title" id="reel-title">Sharp Flick Up 🖐️⬆️ to go to next video</div>
             </div>
             <div class="reel-stats">
               <div class="like-badge" id="like-badge">
                 <span id="heart-icon">🤍</span>
                 <span id="like-count">1.4k</span>
               </div>
-              <span id="play-status">▶ Playing</span>
+              <span id="play-status" style="font-size: 11px; opacity: 0.7;">▶ Playing</span>
             </div>
           </div>
         </div>
 
         <div style="display: flex; gap: 8px; justify-content: center;">
-          <button class="btn-primary" style="padding: 6px 14px; font-size: 11px;" id="btn-prev">⬆ Prev Reel</button>
-          <button class="btn-primary" style="padding: 6px 14px; font-size: 11px;" id="btn-next">⬇ Next Reel</button>
-          <button class="btn-primary" style="padding: 6px 14px; font-size: 11px; background: #ef4444;" id="btn-like">❤️ Like</button>
+          <button class="btn-dark" id="btn-prev">⬆ Prev Reel</button>
+          <button class="btn-dark" id="btn-next">⬇ Next Reel</button>
+          <button class="btn-dark" id="btn-like">❤️ Like</button>
         </div>
       </div>
     </div>
   </div>
 
+  <script src="lib/hands.js"></script>
   <script src="content/platform_adapter.js"></script>
   <script src="content/gesture_engine.js"></script>
   <script src="content/tracker.js"></script>
   <script>
     const reelsData = [
-      { id: 1, title: "Wave Up 🖐️⬆️ to go to next video", bg: "reel-1", likes: 1420 },
+      { id: 1, title: "Sharp Flick Up 🖐️⬆️ to go to next video", bg: "reel-1", likes: 1420 },
       { id: 2, title: "Hold Thumbs Up 👍 to like this reel", bg: "reel-2", likes: 3890 },
-      { id: 3, title: "Wave Down 👇⬇️ to go back to previous", bg: "reel-3", likes: 9200 },
-      { id: 4, title: "ReelFlick extension fully loaded!", bg: "reel-4", likes: 15400 }
+      { id: 3, title: "Sharp Flick Down 👇⬇️ to go to previous", bg: "reel-3", likes: 9200 },
+      { id: 4, title: "Matte Charcoal Noir theme active", bg: "reel-4", likes: 15400 }
     ];
 
     let currentIndex = 0;
     let isLiked = false;
-    let isPlaying = true;
 
     const video = document.getElementById("test-video");
     const canvas = document.getElementById("test-canvas");
@@ -377,7 +405,6 @@
     const likeBadge = document.getElementById("like-badge");
     const heartIcon = document.getElementById("heart-icon");
     const likeCount = document.getElementById("like-count");
-    const playStatus = document.getElementById("play-status");
 
     function log(msg, isHighlight = false) {
       const entry = document.createElement("div");
@@ -401,14 +428,14 @@
     function nextReel() {
       currentIndex = (currentIndex + 1) % reelsData.length;
       renderReel();
-      log(`Swiped Next ➔ Reel #${currentIndex + 1}`, true);
+      log(`Flick Next ➔ Reel #${currentIndex + 1}`, true);
       showFeedback("⬇️", "Next Reel");
     }
 
     function prevReel() {
       currentIndex = (currentIndex - 1 + reelsData.length) % reelsData.length;
       renderReel();
-      log(`Swiped Prev ➔ Reel #${currentIndex + 1}`, true);
+      log(`Flick Prev ➔ Reel #${currentIndex + 1}`, true);
       showFeedback("⬆️", "Previous Reel");
     }
 
@@ -442,8 +469,7 @@
     document.getElementById("btn-prev").addEventListener("click", prevReel);
     document.getElementById("btn-like").addEventListener("click", toggleLike);
 
-    // Initialize Engine & Tracker
-    const gestureEngine = new window.ReelFlickGestureEngine({ mode: "full_gestures", sensitivity: 1.3 });
+    const gestureEngine = new window.ReelFlickGestureEngine({ mode: "full_gestures", sensitivity: 1.2 });
     const tracker = new window.ReelFlickHandTracker(video, canvas, (landmarks) => {
       if (!landmarks) return;
       const res = gestureEngine.process(landmarks);
@@ -459,15 +485,15 @@
         tracker.stop();
         placeholder.classList.remove("hidden");
         btnToggleCam.textContent = "Start Camera";
-        log("Camera stream stopped.");
+        log("Camera stopped.");
       } else {
         try {
           await tracker.start();
           placeholder.classList.add("hidden");
           btnToggleCam.textContent = "Stop Camera";
-          log("Camera started! Vision tracking active.");
+          log("Camera & Hand tracking active!");
         } catch (e) {
-          log("Camera permission denied or unavailable: " + e.message);
+          log("Camera error: " + e.message);
         }
       }
     }

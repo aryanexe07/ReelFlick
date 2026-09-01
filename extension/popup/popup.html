@@ -12,23 +12,23 @@
     <header class="rf-header">
       <div class="rf-brand">
         <div class="rf-logo">
-          <img src="../icons/icon32.png" alt="ReelFlick Logo" class="rf-logo-img">
+          <img src="../icons/icon48.png" alt="ReelFlick" class="rf-logo-img">
         </div>
         <div class="rf-brand-text">
           <div class="rf-title-row">
             <h1 class="rf-title">ReelFlick</h1>
             <span class="rf-version-badge">v1.0</span>
           </div>
-          <p class="rf-subtitle">Air Gesture Video Controller</p>
+          <p class="rf-subtitle">Air Gesture Controller</p>
         </div>
       </div>
-      <label class="rf-switch" title="Master On/Off Switch">
+      <label class="rf-switch" title="Master On/Off">
         <input type="checkbox" id="toggle-enabled" checked>
         <span class="rf-slider"></span>
       </label>
     </header>
 
-    <!-- Platform Detection Status Banner -->
+    <!-- Platform Status Banner -->
     <div class="rf-platform-status" id="platform-status-banner">
       <span class="rf-status-indicator" id="platform-dot"></span>
       <span class="rf-status-text" id="platform-label">Checking active tab...</span>
@@ -37,10 +37,10 @@
     <!-- Supported Platforms Pills -->
     <div class="rf-platform-tags">
       <div class="rf-tag" id="tag-yt">
-        <span class="rf-tag-icon">▶</span> YouTube Shorts
+        <span class="rf-tag-icon">▶</span> Shorts
       </div>
       <div class="rf-tag" id="tag-ig">
-        <span class="rf-tag-icon">📸</span> IG Reels
+        <span class="rf-tag-icon">📸</span> Reels
       </div>
       <div class="rf-tag" id="tag-tt">
         <span class="rf-tag-icon">🎵</span> TikTok
@@ -51,7 +51,7 @@
     <div class="rf-section">
       <div class="rf-section-header">
         <label class="rf-section-label">Gesture Mode</label>
-        <span class="rf-badge-active" id="badge-current-mode">Scroll Only</span>
+        <span class="rf-badge-active" id="badge-current-mode">Air Scroll</span>
       </div>
       <div class="rf-mode-grid">
         <button class="rf-mode-card active" id="mode-scroll-only">
@@ -59,14 +59,14 @@
             <span class="rf-mode-icon">⚡</span>
             <span class="rf-mode-name">Air Scroll</span>
           </div>
-          <p class="rf-mode-desc">Lightning-fast Flick Up & Down to swipe between videos</p>
+          <p class="rf-mode-desc">Sharp Flick Up & Down to swipe reels seamlessly</p>
         </button>
         <button class="rf-mode-card" id="mode-full-gestures">
           <div class="rf-mode-card-header">
             <span class="rf-mode-icon">✋</span>
-            <span class="rf-mode-name">Full Hands-Free</span>
+            <span class="rf-mode-name">Full Mode</span>
           </div>
-          <p class="rf-mode-desc">Swipe Next/Prev + Thumbs Up to Like ❤️ & Play/Pause</p>
+          <p class="rf-mode-desc">Flicks + Hold Thumbs Up 👍 to like video</p>
         </button>
       </div>
     </div>
@@ -89,8 +89,8 @@
     <div class="rf-section rf-options-box">
       <div class="rf-option-row">
         <div class="rf-option-info">
-          <span class="rf-option-title">Auto-start on Shorts/Reels</span>
-          <span class="rf-option-desc">Starts tracking automatically on load</span>
+          <span class="rf-option-title">Auto-start on Reels/Shorts</span>
+          <span class="rf-option-desc">Enables camera automatically on load</span>
         </div>
         <label class="rf-switch mini">
           <input type="checkbox" id="toggle-autostart" checked>
@@ -99,8 +99,8 @@
       </div>
       <div class="rf-option-row">
         <div class="rf-option-info">
-          <span class="rf-option-title">Show In-Page Floating HUD</span>
-          <span class="rf-option-desc">Draggable camera widget on page</span>
+          <span class="rf-option-title">Floating HUD</span>
+          <span class="rf-option-desc">Draggable on-screen camera widget</span>
         </div>
         <label class="rf-switch mini">
           <input type="checkbox" id="toggle-hud" checked>
@@ -141,10 +141,10 @@
     <footer class="rf-footer">
       <div class="rf-footer-status">
         <span class="rf-dot-live"></span>
-        <span>Ready to Flick</span>
+        <span>ReelFlick Ready</span>
       </div>
       <div class="rf-footer-links">
-        <span>Press anywhere on Shorts to scroll</span>
+        <span>Flick hand to navigate</span>
       </div>
     </footer>
   </div>

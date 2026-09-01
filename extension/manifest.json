@@ -38,6 +38,7 @@
         "*://*.tiktok.com/*"
       ],
       "js": [
+        "lib/hands.js",
         "content/platform_adapter.js",
         "content/gesture_engine.js",
         "content/tracker.js",
@@ -53,6 +54,7 @@
     {
       "resources": [
         "icons/*",
+        "lib/*",
         "content/*"
       ],
       "matches": [

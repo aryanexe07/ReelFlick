@@ -11,26 +11,26 @@ from typing import Dict
 class Theme:
     """Dark mode theme colors and styling."""
     
-    # Primary colors
-    PRIMARY = QColor("#6366f1")  # Indigo
-    PRIMARY_HOVER = QColor("#4f46e5")
-    PRIMARY_PRESSED = QColor("#4338ca")
+    # Primary colors (Monochrome Charcoal & Chalk White)
+    PRIMARY = QColor("#ffffff")  # Chalk White
+    PRIMARY_HOVER = QColor("#e4e4e7")
+    PRIMARY_PRESSED = QColor("#d4d4d8")
     
     # Background colors
-    BACKGROUND = QColor("#0f0f0f")  # Very dark
-    SURFACE = QColor("#1a1a1a")  # Slightly lighter
-    SURFACE_LIGHT = QColor("#252525")
+    BACKGROUND = QColor("#09090b")  # Pitch Matte Black
+    SURFACE = QColor("#121215")  # Matte Charcoal
+    SURFACE_LIGHT = QColor("#1c1c22")
     
     # Text colors
-    TEXT_PRIMARY = QColor("#ffffff")
-    TEXT_SECONDARY = QColor("#a0a0a0")
-    TEXT_DISABLED = QColor("#505050")
+    TEXT_PRIMARY = QColor("#f4f4f5")
+    TEXT_SECONDARY = QColor("#a1a1aa")
+    TEXT_DISABLED = QColor("#52525b")
     
     # Accent colors
-    ACCENT_GREEN = QColor("#10b981")  # Emerald
-    ACCENT_BLUE = QColor("#3b82f6")  # Blue
+    ACCENT_GREEN = QColor("#22c55e")  # Emerald
+    ACCENT_BLUE = QColor("#ffffff")  # White
     ACCENT_RED = QColor("#ef4444")  # Red
-    ACCENT_YELLOW = QColor("#f59e0b")  # Amber
+    ACCENT_YELLOW = QColor("#eab308")  # Amber
     
     # Status colors
     SUCCESS = ACCENT_GREEN
@@ -39,8 +39,8 @@ class Theme:
     INFO = ACCENT_BLUE
     
     # Border colors
-    BORDER = QColor("#333333")
-    BORDER_LIGHT = QColor("#404040")
+    BORDER = QColor("#27272a")
+    BORDER_LIGHT = QColor("#3f3f46")
     
     # Glassmorphism
     GLASS_BACKGROUND = QColor(30, 30, 30, 200)
