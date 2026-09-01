@@ -216,14 +216,30 @@ body {
   width: 100%;
   height: 120px;
   background: #000000;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.9);
   margin-top: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+/* Viewfinder Corner HUD Brackets */
+.rf-corner {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: rgba(255, 255, 255, 0.35);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.rf-corner-tl { top: 6px; left: 6px; border-width: 1.5px 0 0 1.5px; border-top-left-radius: 3px; }
+.rf-corner-tr { top: 6px; right: 6px; border-width: 1.5px 1.5px 0 0; border-top-right-radius: 3px; }
+.rf-corner-bl { bottom: 6px; left: 6px; border-width: 0 0 1.5px 1.5px; border-bottom-left-radius: 3px; }
+.rf-corner-br { bottom: 6px; right: 6px; border-width: 0 1.5px 1.5px 0; border-bottom-right-radius: 3px; }
 
 #popup-video {
   width: 100%;

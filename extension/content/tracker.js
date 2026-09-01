@@ -1,8 +1,11 @@
 /**
  * ReelFlick In-Browser Hand Tracker
  * Powered by local bundled MediaPipe Hands with ML hand-landmark detection.
- * Specifically detects hands only (strictly ignores faces, bodies, and background).
- * Renders an aesthetic monochrome silver/chalk-white skeleton HUD.
+ * Renders an ultra-clean, high-tech monochrome cinematic viewfinder HUD overlay:
+ * - Dynamic palm targeting reticle & cyber halo
+ * - Tapered chalk-white skeleton lines with luminous outer bloom
+ * - Pulsing fingertip status nodes
+ * - Viewfinder corner brackets & HUD telemetry
  */
 
 class HandTracker {
@@ -18,13 +21,18 @@ class HandTracker {
     this.mediaPipeHands = null;
     this.isMediaPipeReady = false;
     this.isProcessingFrame = false;
+
+    // Animation state
+    this.pulsePhase = 0;
+    this.lastPalmX = 0.5;
+    this.lastPalmY = 0.5;
   }
 
   async start() {
     if (this.isRunning) return true;
 
     try {
-      console.log("[ReelFlick HandTracker] Initializing camera and MediaPipe Hands...");
+      console.log("[ReelFlick HandTracker] Initializing camera & MediaPipe Hands ML...");
 
       const constraints = {
         video: {
@@ -53,7 +61,7 @@ class HandTracker {
       await this._initMediaPipe();
 
       this._loop();
-      console.log("[ReelFlick HandTracker] Camera & Hand Tracking started.");
+      console.log("[ReelFlick HandTracker] Camera & ML tracking active.");
       return true;
     } catch (err) {
       console.error("[ReelFlick HandTracker] Start error:", err);
@@ -117,9 +125,9 @@ class HandTracker {
             }));
 
             this.onResults(mirrored);
-            this._drawSkeleton(mirrored);
+            this._drawCyberHUD(mirrored);
           } else {
-            // No hand in frame (faces and background are cleanly ignored)
+            // No hand in frame (strictly clear canvas, faces ignored)
             this.onResults(null);
             this._clearCanvas();
           }
@@ -133,8 +141,10 @@ class HandTracker {
     }
   }
 
-  _loop() {
+  _loop(timestamp = performance.now()) {
     if (!this.isRunning) return;
+
+    this.pulsePhase = (timestamp / 1000) * 3.5;
 
     if (this.video && this.video.readyState >= this.video.HAVE_CURRENT_DATA) {
       const vw = this.video.videoWidth || 320;
@@ -153,10 +163,10 @@ class HandTracker {
       }
     }
 
-    this.animFrameId = requestAnimationFrame(() => this._loop());
+    this.animFrameId = requestAnimationFrame((t) => this._loop(t));
   }
 
-  _drawSkeleton(landmarks) {
+  _drawCyberHUD(landmarks) {
     const w = this.canvas.width;
     const h = this.canvas.height;
     if (w === 0 || h === 0) return;
@@ -169,14 +179,48 @@ class HandTracker {
       [0, 9], [9, 10], [10, 11], [11, 12], // Middle
       [0, 13], [13, 14], [14, 15], [15, 16], // Ring
       [0, 17], [17, 18], [18, 19], [19, 20], // Pinky
-      [5, 9], [9, 13], [13, 17] // Palm
+      [5, 9], [9, 13], [13, 17] // Palm Base
     ];
 
-    // Draw Chalk-White / Silver Bones
-    this.ctx.shadowBlur = 6;
-    this.ctx.shadowColor = "rgba(255, 255, 255, 0.8)";
-    this.ctx.strokeStyle = "rgba(255, 255, 255, 0.85)";
-    this.ctx.lineWidth = 2.0;
+    // 1. Calculate Palm Center for Targeting Halo
+    const palmIndices = [0, 5, 9, 13, 17];
+    let palmX = 0, palmY = 0;
+    for (let idx of palmIndices) {
+      palmX += landmarks[idx].x;
+      palmY += landmarks[idx].y;
+    }
+    palmX = (palmX / palmIndices.length) * w;
+    palmY = (palmY / palmIndices.length) * h;
+
+    // Smooth palm position
+    this.lastPalmX += (palmX - this.lastPalmX) * 0.4;
+    this.lastPalmY += (palmY - this.lastPalmY) * 0.4;
+
+    // 2. Draw Palm Target Reticle & Cyber Ring
+    const haloRadius = 18 + Math.sin(this.pulsePhase) * 2.5;
+    this.ctx.save();
+    this.ctx.strokeStyle = "rgba(255, 255, 255, 0.45)";
+    this.ctx.lineWidth = 1.2;
+    this.ctx.setLineDash([4, 4]);
+    this.ctx.beginPath();
+    this.ctx.arc(this.lastPalmX, this.lastPalmY, haloRadius, 0, Math.PI * 2);
+    this.ctx.stroke();
+
+    // Central crosshair pip
+    this.ctx.setLineDash([]);
+    this.ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+    this.ctx.beginPath();
+    this.ctx.arc(this.lastPalmX, this.lastPalmY, 2, 0, Math.PI * 2);
+    this.ctx.fill();
+    this.ctx.restore();
+
+    // 3. Draw Chalk-White / Silver Bones
+    this.ctx.save();
+    this.ctx.shadowBlur = 8;
+    this.ctx.shadowColor = "rgba(255, 255, 255, 0.9)";
+    this.ctx.strokeStyle = "rgba(255, 255, 255, 0.88)";
+    this.ctx.lineWidth = 2.2;
+    this.ctx.lineCap = "round";
 
     for (let [i, j] of connections) {
       const p1 = landmarks[i];
@@ -188,19 +232,47 @@ class HandTracker {
         this.ctx.stroke();
       }
     }
+    this.ctx.restore();
 
-    // Draw Glowing Chalk Joints
-    this.ctx.shadowBlur = 8;
-    this.ctx.shadowColor = "#ffffff";
-
+    // 4. Draw Intermediate Knuckle Nodes
     for (let idx = 0; idx < landmarks.length; idx++) {
       const p = landmarks[idx];
       if (!p) continue;
+
       const isTip = [4, 8, 12, 16, 20].includes(idx);
-      this.ctx.fillStyle = isTip ? "#ffffff" : "#d4d4d8";
+      if (!isTip) {
+        this.ctx.fillStyle = "rgba(212, 212, 216, 0.9)";
+        this.ctx.beginPath();
+        this.ctx.arc(p.x * w, p.y * h, 2.0, 0, Math.PI * 2);
+        this.ctx.fill();
+      }
+    }
+
+    // 5. Draw Luminous Fingertip Status Nodes with Pulse Rings
+    for (let tipIdx of [4, 8, 12, 16, 20]) {
+      const tip = landmarks[tipIdx];
+      if (!tip) continue;
+
+      const tx = tip.x * w;
+      const ty = tip.y * h;
+
+      // Outer delicate pulse ring
+      const tipPulse = 5.5 + Math.sin(this.pulsePhase + tipIdx) * 1.5;
+      this.ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+      this.ctx.lineWidth = 1;
       this.ctx.beginPath();
-      this.ctx.arc(p.x * w, p.y * h, isTip ? 3.5 : 2.0, 0, Math.PI * 2);
+      this.ctx.arc(tx, ty, tipPulse, 0, Math.PI * 2);
+      this.ctx.stroke();
+
+      // Solid chalk-white core
+      this.ctx.save();
+      this.ctx.shadowBlur = 10;
+      this.ctx.shadowColor = "#ffffff";
+      this.ctx.fillStyle = "#ffffff";
+      this.ctx.beginPath();
+      this.ctx.arc(tx, ty, 3.5, 0, Math.PI * 2);
       this.ctx.fill();
+      this.ctx.restore();
     }
   }
 

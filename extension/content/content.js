@@ -120,6 +120,14 @@
         <div class="rf-viewport ${settings.cameraVisible === false ? 'hidden-view' : ''}" id="rf-viewport" title="Live gesture feed">
           <video class="rf-video-stream" id="rf-video" playsinline muted autoplay></video>
           <canvas class="rf-canvas-overlay" id="rf-canvas"></canvas>
+          <div class="rf-corner rf-corner-tl"></div>
+          <div class="rf-corner rf-corner-tr"></div>
+          <div class="rf-corner rf-corner-bl"></div>
+          <div class="rf-corner rf-corner-br"></div>
+          <div class="rf-live-badge">
+            <span class="rf-live-dot"></span>
+            <span>LIVE</span>
+          </div>
           <div class="rf-gesture-feedback" id="rf-feedback">
             <span class="rf-gesture-icon" id="rf-feedback-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
