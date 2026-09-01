@@ -77,7 +77,7 @@
     }
   }
 
-  // 2. Inject Bottom-Right Floating HUD with Custom SVGs
+  // 2. Inject Bottom-Right Floating HUD with Custom SVGs and Doomscrolling Logo
   function createHud() {
     if (document.getElementById("reelflick-hud-root")) return;
 
@@ -90,16 +90,18 @@
       root.classList.add("minimized");
     }
 
+    const logoUrl = chrome?.runtime?.getURL ? chrome.runtime.getURL("icons/icon32.png") : "";
+
     root.innerHTML = `
       <div class="rf-hud-container" id="rf-container">
         <div class="rf-hud-header" id="rf-header" title="Drag to reposition">
           <div class="rf-brand" id="rf-brand-pill">
-            <div class="rf-brand-dot searching" id="rf-status-dot"></div>
+            ${logoUrl ? `<img src="${logoUrl}" class="rf-hud-logo" alt="logo">` : `<div class="rf-brand-dot searching" id="rf-status-dot"></div>`}
             <span class="rf-brand-title">ReelFlick</span>
           </div>
           <div class="rf-header-actions">
             <span class="rf-mode-badge" id="rf-mode-badge" title="Click to toggle gesture mode">
-              ${settings.mode === "scroll_only" ? "Scroll" : "Full"}
+              ${settings.mode === "scroll_only" ? "Air Scroll" : "Full Mode"}
             </span>
             <button class="rf-mini-btn" id="rf-btn-min" title="Minimize/Expand">
               <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -131,9 +133,13 @@
               <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
               <circle cx="12" cy="12" r="3"></circle>
             </svg>
+            <span>Cam</span>
           </button>
           <button class="rf-tool-btn active" id="rf-btn-toggle" title="Pause/Resume Tracking">
-            Active
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+            </svg>
+            <span id="rf-toggle-label">Active</span>
           </button>
         </div>
       </div>
@@ -158,7 +164,8 @@
       statusText: document.getElementById("rf-status-text"),
       btnMin: document.getElementById("rf-btn-min"),
       btnView: document.getElementById("rf-btn-view"),
-      btnToggle: document.getElementById("rf-btn-toggle")
+      btnToggle: document.getElementById("rf-btn-toggle"),
+      toggleLabel: document.getElementById("rf-toggle-label")
     };
 
     // Attach HUD listeners
@@ -186,12 +193,12 @@
     if (!settings.enabled) return;
 
     if (!landmarks) {
-      hudElements.statusDot.className = "rf-brand-dot searching";
+      if (hudElements.statusDot) hudElements.statusDot.className = "rf-brand-dot searching";
       hudElements.statusText.textContent = "Wave hand to control...";
       return;
     }
 
-    hudElements.statusDot.className = "rf-brand-dot";
+    if (hudElements.statusDot) hudElements.statusDot.className = "rf-brand-dot";
     hudElements.statusText.textContent = settings.mode === "scroll_only" ? "Scroll ready (Flick ⬆⬇)" : "Hand active (Flicks & Like)";
 
     const result = gestureEngine.process(landmarks);
@@ -247,20 +254,20 @@
   // 5. Controls & Toggles
   async function startTracking() {
     try {
-      hudElements.statusDot.className = "rf-brand-dot searching";
+      if (hudElements.statusDot) hudElements.statusDot.className = "rf-brand-dot searching";
       hudElements.statusText.textContent = "Starting camera...";
-      hudElements.btnToggle.textContent = "Starting...";
+      if (hudElements.toggleLabel) hudElements.toggleLabel.textContent = "Starting...";
 
       await handTracker.start();
 
-      hudElements.statusDot.className = "rf-brand-dot";
+      if (hudElements.statusDot) hudElements.statusDot.className = "rf-brand-dot";
       hudElements.statusText.textContent = settings.mode === "scroll_only" ? "Scroll ready" : "Hand tracking ready";
-      hudElements.btnToggle.textContent = "Active";
+      if (hudElements.toggleLabel) hudElements.toggleLabel.textContent = "Active";
       hudElements.btnToggle.classList.add("active");
     } catch (err) {
       console.warn("[ReelFlick] startTracking error:", err);
-      hudElements.statusDot.className = "rf-brand-dot inactive";
-      hudElements.btnToggle.textContent = "Start";
+      if (hudElements.statusDot) hudElements.statusDot.className = "rf-brand-dot inactive";
+      if (hudElements.toggleLabel) hudElements.toggleLabel.textContent = "Start";
       hudElements.btnToggle.classList.remove("active");
 
       if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
@@ -275,9 +282,9 @@
     try {
       handTracker.stop();
     } catch (e) {}
-    hudElements.statusDot.className = "rf-brand-dot inactive";
+    if (hudElements.statusDot) hudElements.statusDot.className = "rf-brand-dot inactive";
     hudElements.statusText.textContent = "Tracking paused";
-    hudElements.btnToggle.textContent = "Start";
+    if (hudElements.toggleLabel) hudElements.toggleLabel.textContent = "Start";
     hudElements.btnToggle.classList.remove("active");
   }
 
@@ -329,7 +336,7 @@
 
   function updateHudUI() {
     if (!hudElements) return;
-    hudElements.modeBadge.textContent = settings.mode === "scroll_only" ? "Scroll" : "Full";
+    hudElements.modeBadge.textContent = settings.mode === "scroll_only" ? "Air Scroll" : "Full Mode";
   }
 
   // 6. Make HUD Draggable across the window
