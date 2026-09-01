@@ -34,20 +34,69 @@
       <span class="rf-status-text" id="platform-label">Checking active tab...</span>
     </div>
 
-    <!-- Supported Platforms Pills -->
+    <!-- Supported Platforms Pills with Custom SVGs -->
     <div class="rf-platform-tags">
       <div class="rf-tag" id="tag-yt">
-        <span class="rf-tag-icon">▶</span> Shorts
+        <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        <span>Shorts</span>
       </div>
       <div class="rf-tag" id="tag-ig">
-        <span class="rf-tag-icon">📸</span> Reels
+        <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+        <span>Reels</span>
       </div>
       <div class="rf-tag" id="tag-tt">
-        <span class="rf-tag-icon">🎵</span> TikTok
+        <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.86 4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-.96-.02z"/>
+        </svg>
+        <span>TikTok</span>
       </div>
     </div>
 
-    <!-- Mode Selector Cards -->
+    <!-- Live Popup Camera Preview (Collapsible) -->
+    <div class="rf-section rf-camera-section">
+      <div class="rf-section-header">
+        <div class="rf-cam-title">
+          <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <label class="rf-section-label">Vision Monitor</label>
+        </div>
+        <button class="rf-cam-toggle-btn" id="btn-popup-cam" title="Toggle Live Preview">
+          <span id="popup-cam-btn-text">Test Camera</span>
+        </button>
+      </div>
+
+      <div class="rf-popup-viewport" id="popup-viewport">
+        <video id="popup-video" playsinline muted autoplay></video>
+        <canvas id="popup-canvas"></canvas>
+        <div class="rf-popup-feedback" id="popup-feedback">
+          <span class="rf-popup-feedback-icon" id="popup-feedback-icon">
+            <svg class="rf-svg-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="12" y1="19" x2="12" y2="5"></line>
+              <polyline points="5 12 12 5 19 12"></polyline>
+            </svg>
+          </span>
+          <span class="rf-popup-feedback-text" id="popup-feedback-text">Flick Up</span>
+        </div>
+        <div class="rf-cam-standby" id="popup-cam-standby">
+          <svg class="rf-svg-icon-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M1 1l22 22"></path>
+            <path d="M21 21H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3m3-3h6l2 3h4a2 2 0 0 1 2 2v9.34"></path>
+            <circle cx="12" cy="13" r="4"></circle>
+          </svg>
+          <span>Camera Standby • Click Test Camera to Calibrate</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mode Selector Cards with Custom SVGs -->
     <div class="rf-section">
       <div class="rf-section-header">
         <label class="rf-section-label">Gesture Mode</label>
@@ -56,17 +105,24 @@
       <div class="rf-mode-grid">
         <button class="rf-mode-card active" id="mode-scroll-only">
           <div class="rf-mode-card-header">
-            <span class="rf-mode-icon">⚡</span>
+            <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
             <span class="rf-mode-name">Air Scroll</span>
           </div>
           <p class="rf-mode-desc">Sharp Flick Up & Down to swipe reels seamlessly</p>
         </button>
         <button class="rf-mode-card" id="mode-full-gestures">
           <div class="rf-mode-card-header">
-            <span class="rf-mode-icon">✋</span>
+            <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v0"></path>
+              <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v6"></path>
+              <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+              <path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"></path>
+            </svg>
             <span class="rf-mode-name">Full Mode</span>
           </div>
-          <p class="rf-mode-desc">Flicks + Hold Thumbs Up 👍 to like video</p>
+          <p class="rf-mode-desc">Flicks + Hold Thumbs Up to like video</p>
         </button>
       </div>
     </div>
@@ -85,7 +141,7 @@
       </div>
     </div>
 
-    <!-- Quick Toggles -->
+    <!-- Quick Toggles with SVGs -->
     <div class="rf-section rf-options-box">
       <div class="rf-option-row">
         <div class="rf-option-info">
@@ -109,27 +165,35 @@
       </div>
     </div>
 
-    <!-- Gesture Reference -->
+    <!-- Gesture Reference with Custom SVGs -->
     <div class="rf-section">
       <label class="rf-section-label">Gestures Guide</label>
       <div class="rf-gesture-list">
         <div class="rf-gesture-item">
           <div class="rf-gesture-key">
-            <span class="rf-gesture-glyph">🖐️⬆️</span>
+            <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="19" x2="12" y2="5"></line>
+              <polyline points="5 12 12 5 19 12"></polyline>
+            </svg>
             <span>Flick Up</span>
           </div>
           <span class="rf-gesture-action">Next Video</span>
         </div>
         <div class="rf-gesture-item">
           <div class="rf-gesture-key">
-            <span class="rf-gesture-glyph">👇⬇️</span>
+            <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
             <span>Flick Down</span>
           </div>
           <span class="rf-gesture-action">Previous Video</span>
         </div>
         <div class="rf-gesture-item" id="ref-like-item">
           <div class="rf-gesture-key">
-            <span class="rf-gesture-glyph">👍</span>
+            <svg class="rf-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
             <span>Thumbs Up</span>
           </div>
           <span class="rf-gesture-action">Like Video</span>
@@ -149,6 +213,10 @@
     </footer>
   </div>
 
+  <script src="../lib/hands.js"></script>
+  <script src="../content/platform_adapter.js"></script>
+  <script src="../content/gesture_engine.js"></script>
+  <script src="../content/tracker.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

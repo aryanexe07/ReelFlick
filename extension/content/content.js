@@ -1,6 +1,7 @@
 /**
  * ReelFlick Content Script
  * Assembles Floating HUD, In-Browser Tracker, Gesture Engine, and Platform Adapter.
+ * Uses custom SVG iconography and matte obsidian charcoal design.
  */
 
 (function () {
@@ -76,7 +77,7 @@
     }
   }
 
-  // 2. Inject Bottom-Right Floating HUD with Dragging & Minimizing
+  // 2. Inject Bottom-Right Floating HUD with Custom SVGs
   function createHud() {
     if (document.getElementById("reelflick-hud-root")) return;
 
@@ -100,7 +101,11 @@
             <span class="rf-mode-badge" id="rf-mode-badge" title="Click to toggle gesture mode">
               ${settings.mode === "scroll_only" ? "Scroll" : "Full"}
             </span>
-            <button class="rf-mini-btn" id="rf-btn-min" title="Minimize/Expand">_</button>
+            <button class="rf-mini-btn" id="rf-btn-min" title="Minimize/Expand">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </button>
           </div>
         </div>
 
@@ -108,7 +113,12 @@
           <video class="rf-video-stream" id="rf-video" playsinline muted autoplay></video>
           <canvas class="rf-canvas-overlay" id="rf-canvas"></canvas>
           <div class="rf-gesture-feedback" id="rf-feedback">
-            <span class="rf-gesture-icon" id="rf-feedback-icon">⚡</span>
+            <span class="rf-gesture-icon" id="rf-feedback-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <line x1="12" y1="19" x2="12" y2="5"></line>
+                <polyline points="5 12 12 5 19 12"></polyline>
+              </svg>
+            </span>
             <span class="rf-gesture-text" id="rf-feedback-text">Flick Up</span>
           </div>
         </div>
@@ -117,10 +127,13 @@
 
         <div class="rf-toolbar">
           <button class="rf-tool-btn" id="rf-btn-view" title="Toggle camera visibility">
-            👁️
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
           </button>
           <button class="rf-tool-btn active" id="rf-btn-toggle" title="Pause/Resume Tracking">
-            ⏹ Active
+            Active
           </button>
         </div>
       </div>
@@ -178,8 +191,8 @@
       return;
     }
 
-    hudElements.statusDot.className = "rf-brand-dot"; // active green
-    hudElements.statusText.textContent = settings.mode === "scroll_only" ? "Scroll ready (Flick ⬆⬇)" : "Hand active (Flicks & 👍)";
+    hudElements.statusDot.className = "rf-brand-dot";
+    hudElements.statusText.textContent = settings.mode === "scroll_only" ? "Scroll ready (Flick ⬆⬇)" : "Hand active (Flicks & Like)";
 
     const result = gestureEngine.process(landmarks);
 
@@ -188,40 +201,40 @@
     }
   }
 
-  // 4. Trigger Platform Action & Show HUD Feedback
+  // 4. Trigger Platform Action & Show HUD Feedback with Custom SVGs
   function triggerAction(action, result) {
-    let icon = "⚡";
+    let svgIcon = "";
     let text = result.message || action;
 
     switch (action) {
       case "NEXT":
         platformAdapter.next();
-        icon = "⬇️";
+        svgIcon = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>`;
         text = "Next Video";
         break;
       case "PREVIOUS":
         platformAdapter.previous();
-        icon = "⬆️";
+        svgIcon = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>`;
         text = "Previous Video";
         break;
       case "LIKE":
         platformAdapter.like();
-        icon = "❤️";
+        svgIcon = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>`;
         text = "Liked!";
         break;
       case "PLAY_PAUSE":
         platformAdapter.togglePlayPause();
-        icon = "⏯️";
+        svgIcon = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>`;
         text = "Play/Pause";
         break;
     }
 
-    showGestureFeedback(icon, text);
+    showGestureFeedback(svgIcon, text);
   }
 
-  function showGestureFeedback(icon, text) {
+  function showGestureFeedback(svgIcon, text) {
     if (!hudElements.feedback) return;
-    hudElements.feedbackIcon.textContent = icon;
+    hudElements.feedbackIcon.innerHTML = svgIcon;
     hudElements.feedbackText.textContent = text;
     hudElements.feedback.classList.add("show");
 
@@ -236,18 +249,18 @@
     try {
       hudElements.statusDot.className = "rf-brand-dot searching";
       hudElements.statusText.textContent = "Starting camera...";
-      hudElements.btnToggle.innerHTML = "⏳ Starting";
+      hudElements.btnToggle.textContent = "Starting...";
 
       await handTracker.start();
 
       hudElements.statusDot.className = "rf-brand-dot";
       hudElements.statusText.textContent = settings.mode === "scroll_only" ? "Scroll ready" : "Hand tracking ready";
-      hudElements.btnToggle.innerHTML = "⏹ Active";
+      hudElements.btnToggle.textContent = "Active";
       hudElements.btnToggle.classList.add("active");
     } catch (err) {
       console.warn("[ReelFlick] startTracking error:", err);
       hudElements.statusDot.className = "rf-brand-dot inactive";
-      hudElements.btnToggle.innerHTML = "▶ Start";
+      hudElements.btnToggle.textContent = "Start";
       hudElements.btnToggle.classList.remove("active");
 
       if (err.name === "NotAllowedError" || err.name === "PermissionDeniedError") {
@@ -264,7 +277,7 @@
     } catch (e) {}
     hudElements.statusDot.className = "rf-brand-dot inactive";
     hudElements.statusText.textContent = "Tracking paused";
-    hudElements.btnToggle.innerHTML = "▶ Start";
+    hudElements.btnToggle.textContent = "Start";
     hudElements.btnToggle.classList.remove("active");
   }
 
@@ -290,10 +303,10 @@
     settings.minimized = !settings.minimized;
     if (settings.minimized) {
       hudElements.root.classList.add("minimized");
-      hudElements.btnMin.textContent = "+";
+      hudElements.btnMin.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`;
     } else {
       hudElements.root.classList.remove("minimized");
-      hudElements.btnMin.textContent = "_";
+      hudElements.btnMin.innerHTML = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line></svg>`;
     }
     if (chrome?.storage?.sync) {
       chrome.storage.sync.set({ minimized: settings.minimized });
@@ -335,7 +348,6 @@
       elemStartX = rect.left;
       elemStartY = rect.top;
 
-      // Remove bottom/right pinning for direct pixel positioning
       element.style.bottom = "auto";
       element.style.right = "auto";
       element.style.left = `${elemStartX}px`;

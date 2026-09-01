@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ReelFlick Popup - Matte Charcoal Noir Design System
+   ReelFlick Popup - Matte Charcoal Noir Design System (Custom SVGs & Camera)
    ========================================================================== */
 
 * {
@@ -9,7 +9,7 @@
 }
 
 body {
-  width: 330px;
+  width: 340px;
   background-color: #09090b;
   color: #f4f4f5;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -24,6 +24,22 @@ body {
   flex-direction: column;
   gap: 13px;
   background: radial-gradient(circle at top right, #18181b 0%, #09090b 70%);
+}
+
+/* Custom SVG Icons */
+.rf-svg-icon {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.rf-svg-icon-lg {
+  width: 28px;
+  height: 28px;
+  stroke: currentColor;
 }
 
 /* Header */
@@ -50,7 +66,7 @@ body {
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
   overflow: hidden;
 }
 
@@ -139,12 +155,12 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
   background: #121215;
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 8px;
   padding: 6px 4px;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 500;
   color: #71717a;
   transition: all 0.2s ease;
@@ -157,8 +173,131 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-.rf-tag-icon {
-  font-size: 10px;
+/* Vision Monitor (Popup Camera) */
+.rf-camera-section {
+  background: #121215;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.rf-cam-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #a1a1aa;
+}
+
+.rf-cam-toggle-btn {
+  background: #1e1e24;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f4f4f5;
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 10.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.rf-cam-toggle-btn:hover {
+  background: #27272a;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.rf-cam-toggle-btn.active {
+  background: #ffffff;
+  color: #09090b;
+  border-color: #ffffff;
+}
+
+.rf-popup-viewport {
+  position: relative;
+  width: 100%;
+  height: 120px;
+  background: #000000;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#popup-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+  opacity: 0.55;
+  filter: grayscale(80%) contrast(1.2) brightness(0.9);
+}
+
+#popup-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.rf-cam-standby {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #52525b;
+  font-size: 10.5px;
+  background: #000000;
+  transition: opacity 0.2s ease;
+}
+
+.rf-cam-standby.hidden {
+  display: none;
+}
+
+.rf-popup-feedback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 14, 0.88);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform: scale(0.85);
+  border-radius: 8px;
+}
+
+.rf-popup-feedback.show {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.rf-popup-feedback-icon {
+  color: #ffffff;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8));
+}
+
+.rf-popup-feedback-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-top: 4px;
 }
 
 /* Sections */
@@ -237,10 +376,6 @@ body {
   align-items: center;
   gap: 6px;
   margin-bottom: 4px;
-}
-
-.rf-mode-icon {
-  font-size: 14px;
 }
 
 .rf-mode-name {
@@ -434,10 +569,6 @@ input:checked + .rf-slider:before {
   gap: 6px;
   color: #e4e4e7;
   font-weight: 500;
-}
-
-.rf-gesture-glyph {
-  font-size: 12px;
 }
 
 .rf-gesture-action {
